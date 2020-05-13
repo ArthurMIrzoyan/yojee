@@ -1,0 +1,60 @@
+service: yojee-lazada
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-2
+
+package:
+  individually: true
+  exclude:
+    - ./**
+  include:
+    - request.js
+
+functions:
+  failed:
+    handler: fail.handler
+    events:
+      - http:
+          path: /failed
+          method: post
+          cors: true
+    package:
+      include:
+        - fail.js
+        - body.js
+  
+  accepted:
+    handler: accepted.handler
+    events:
+      - http:
+          path: /accepted
+          method: post
+          cors: true
+    package:
+      include:
+        - accepted.js
+        - body.js
+  completed:
+    handler: completed.handler
+    events:
+      - http:
+          path: /completed
+          method: post
+          cors: true
+    package:
+      include:
+        - completed.js
+        - body.js
+  canceled:
+    handler: canceled.handler
+    events:
+      - http:
+          path: /canceled
+          method: post
+          cors: true
+    package:
+      include:
+        - canceled.js
